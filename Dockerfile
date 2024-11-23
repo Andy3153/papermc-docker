@@ -1,8 +1,8 @@
 # vim: set fenc=utf-8 ts=2 sw=0 sts=0 sr et si tw=0 fdm=marker fmr={{{,}}}:
-FROM debian:stable-slim
+FROM debian:unstable-slim
 
-LABEL maintainer="Andrei Dobrete (github.com/Andy3153 | gitlab.com/Andy3153)"
-LABEL Description="Docker image for PaperMC"
+LABEL maintainer="Andrei Dobrete (andy3153@protonmail.com)"
+LABEL description="Docker image for PaperMC"
 
 COPY setup.sh /
 COPY papermcctl /

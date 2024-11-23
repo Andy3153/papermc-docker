@@ -3,16 +3,16 @@
 
 # {{{ Variables
 _script=$(readlink -f "$0")
-_scriptpath=$(dirname "$_script")
+_scriptpath=$(dirname "${_script}")
 
-_jvmminram=512M
-_jvmmaxram=2018M
+_jvmminram=512m
+_jvmmaxram=2018m
 
-_runnerargs="-Xms$_jvmminram -Xmx$_jvmmaxram -Dcom.mojang.eula.agree=true -jar"
+_runnerargs="-Xms${_jvmminram} -Xmx${_jvmmaxram} -Dcom.mojang.eula.agree=true -jar"
 _gameargs="nogui"
 # }}}
 
 # {{{ Run server
-cd $_scriptpath
-java $_runnerargs $_scriptpath/papermc.jar $_gameargs
+cd "${_scriptpath}" || return
+java ${_runnerargs} "${_scriptpath}/papermc.jar" "${_gameargs}"
 # }}}
