@@ -1,0 +1,22 @@
+# vim: set fenc=utf-8 ts=2 sw=0 sts=0 sr et si tw=0 fdm=marker fmr={{{,}}}:
+version: "3.8"
+
+services:
+  papermc:
+    container_name: papermc
+    restart: unless-stopped
+    tty: true
+    build: .
+    ports:
+      - "25565:25565"
+    networks:
+      net:
+    volumes:
+      - data:/home/papermc
+      - /etc/localtime:/etc/localtime:ro
+
+networks:
+  net:
+
+volumes:
+  data:
