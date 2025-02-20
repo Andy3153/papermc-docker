@@ -8,15 +8,15 @@ printf "\033[34m#### PaperMC Docker Image: building... ####"
 # {{{ Installing dependencies
 printf "\033[34m\n#### Installing dependencies ####\033[0m\n"
 apt update
-apt install --yes curl wget openjdk-21-jre screen
+apt install --yes curl wget openjdk-21-jre screen jq
 # }}}
 
 # {{{ Variables
 _game="papermc"
 
-_papermcver="1.21.1"
-_papermcbuild=$(curl -s -X GET "https://papermc.io/api/v2/projects/paper/versions/${_papermcver}" -H  "accept: application/json" | tr '\n' ' ' | sed -e 's/[^0-9]/ /g' -e 's/^ *//g' -e 's/ *$//g' | tr -s ' ' | sed 's/ /\n/g' | sort -n -r | head -n 1) # get latest build number from papermc api
-_source="https://papermc.io/api/v2/projects/paper/versions/${_papermcver}/builds/${_papermcbuild}/downloads/paper-${_papermcver}-${_papermcbuild}.jar"
+_papermcver="1.21.4"
+_papermcbuild=$(curl -s -X GET "https://api.papermc.io/v2/projects/paper/versions/1.21.4/builds" -H "accept: application/json" | jq '.builds[].build' | sort -n -r | head -n 1) # get latest build number from papermc api
+_source="https://api.papermc.io/v2/projects/paper/versions/${_papermcver}/builds/${_papermcbuild}/downloads/paper-${_papermcver}-${_papermcbuild}.jar"
 
 _dest="${_game}-${_papermcver}_${_papermcbuild}.jar"
 
@@ -49,7 +49,7 @@ mv /server.properties "${_papermcfolder}"
 # {{{ Final steps/cleanup
 printf "\033[34m\n#### Cleanup ####\033[0m\n"
 ln -s "${_papermcfolder}"/papermcctl /bin  # Link scripts to the path
-apt remove --yes curl wget             # Remove no longer needed programs
+apt remove --yes curl wget jq          # Remove no longer needed programs
 apt clean                              # Clear apt cache
 chown -R "${_user}:${_user}" "${_papermcfolder}" # Fix file permissions
 rm /setup.sh                           # Cleanup
